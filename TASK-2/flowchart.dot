@@ -1,0 +1,116 @@
+digraph E_Ticaret_Sistemi {
+    rankdir=TB;
+    node [fontname="Arial"];
+
+    // Düğüm şekilleri
+    basla [shape=oval, label="BAŞLA"];
+    giris [shape=parallelogram, label="E-posta ve şifre oku"];
+    giris_kontrol [shape=diamond, label="Bilgiler doğru mu?"];
+    giris_hata [shape=parallelogram, label="Hatalı giriş mesajı yaz"];
+    sepet_olustur [shape=box, label="Sepeti oluştur\n(toplam_tutar, indirim, kargo=0)"];
+
+    urun_ekleme_soru [shape=parallelogram, label="Ürün eklemek istiyor musunuz? (E/H)"];
+    urun_ekleme_kontrol [shape=diamond, label="Cevap = E mi?"];
+    urun_id_giris [shape=parallelogram, label="Ürün ID ve adet oku"];
+    stok_kontrol [shape=diamond, label="Stok yeterli mi?"];
+    stok_yetersiz [shape=parallelogram, label="Yetersiz stok mesajı yaz"];
+    urun_ekle [shape=box, label="Ürünü sepete ekle\ntoplam_tutar güncelle"];
+    urun_dongu_devam [shape=box, label="Sonraki ürün için döngü"];
+
+    sepet_kontrol [shape=diamond, label="Sepet boş mu?"];
+    sepet_bos [shape=parallelogram, label="Sepet boş mesajı yaz"];
+
+    indirim_soru [shape=parallelogram, label="İndirim kodu var mı? (E/H)"];
+    indirim_kontrol [shape=diamond, label="Cevap = E mi?"];
+    kod_giris [shape=parallelogram, label="Kod oku"];
+    kod_dogrulama [shape=diamond, label="Kod geçerli mi?"];
+    kod_yeni10 [shape=box, label="İndirim = %10"];
+    kod_kargo [shape=box, label="Kargo ücreti = 0"];
+    kod_gecersiz [shape=parallelogram, label="Geçersiz kod mesajı yaz"];
+
+    kargo_kontrol [shape=diamond, label="Toplam_tutar >= 1000 TL mi?"];
+    kargo_ucretsiz [shape=box, label="Kargo ücreti = 0"];
+    kargo_49 [shape=box, label="Kargo ücreti = 49"];
+
+    toplam_hesap [shape=box, label="Ödenecek_tutar = toplam_tutar - indirim + kargo"];
+    toplam_yaz [shape=parallelogram, label="Toplam, indirim, kargo, ödeme tutarı yaz"];
+
+    odeme_yontem [shape=parallelogram, label="Ödeme yöntemi seç (1-2-3)"];
+    odeme_kontrol [shape=diamond, label="Seçim geçerli mi?"];
+    kredi_karti [shape=box, label="Kart bilgilerini al\nÖdeme işlemi yap"];
+    odeme_dogrulama [shape=diamond, label="Ödeme başarılı mı?"];
+    odeme_basarili [shape=parallelogram, label="Ödeme başarılı mesajı yaz"];
+    odeme_basarisiz [shape=parallelogram, label="Ödeme başarısız mesajı yaz"];
+
+    havale [shape=parallelogram, label="Havale talimatı gönder"];
+    kapida [shape=parallelogram, label="Kapıda ödeme seçildi mesajı yaz"];
+    gecersiz_secim [shape=parallelogram, label="Geçersiz seçim mesajı yaz"];
+
+    siparis_olustur [shape=box, label="Sipariş oluştur\nsiparis_no üret"];
+    stok_guncelle [shape=box, label="Stoktan ürünleri düş"];
+    siparis_mesaj [shape=parallelogram, label="Sipariş oluşturuldu mesajı yaz"];
+    bitir [shape=oval, label="BİTİR"];
+
+    // Bağlantılar
+    basla -> giris;
+    giris -> giris_kontrol;
+    giris_kontrol -> sepet_olustur [label="EVET"];
+    giris_kontrol -> giris_hata [label="HAYIR"];
+    giris_hata -> bitir;
+
+    sepet_olustur -> urun_ekleme_soru;
+    urun_ekleme_soru -> urun_ekleme_kontrol;
+    urun_ekleme_kontrol -> urun_id_giris [label="EVET"];
+    urun_ekleme_kontrol -> sepet_kontrol [label="HAYIR"];
+
+    urun_id_giris -> stok_kontrol;
+    stok_kontrol -> urun_ekle [label="EVET"];
+    stok_kontrol -> stok_yetersiz [label="HAYIR"];
+    stok_yetersiz -> urun_dongu_devam;
+    urun_ekle -> urun_dongu_devam;
+    urun_dongu_devam -> urun_ekleme_soru;
+
+    sepet_kontrol -> sepet_bos [label="EVET"];
+    sepet_kontrol -> indirim_soru [label="HAYIR"];
+    sepet_bos -> bitir;
+
+    indirim_soru -> indirim_kontrol;
+    indirim_kontrol -> kod_giris [label="EVET"];
+    indirim_kontrol -> kargo_kontrol [label="HAYIR"];
+
+    kod_giris -> kod_dogrulama;
+    kod_dogrulama -> kod_yeni10 [label="Kod=YENI10"];
+    kod_dogrulama -> kod_kargo [label="Kod=KARGO BEDAVA"];
+    kod_dogrulama -> kod_gecersiz [label="HAYIR"];
+    kod_yeni10 -> kargo_kontrol;
+    kod_kargo -> kargo_kontrol;
+    kod_gecersiz -> kargo_kontrol;
+
+    kargo_kontrol -> kargo_ucretsiz [label="EVET"];
+    kargo_kontrol -> kargo_49 [label="HAYIR"];
+    kargo_ucretsiz -> toplam_hesap;
+    kargo_49 -> toplam_hesap;
+
+    toplam_hesap -> toplam_yaz;
+    toplam_yaz -> odeme_yontem;
+    odeme_yontem -> odeme_kontrol;
+
+    odeme_kontrol -> kredi_karti [label="1"];
+    odeme_kontrol -> havale [label="2"];
+    odeme_kontrol -> kapida [label="3"];
+    odeme_kontrol -> gecersiz_secim [label="Diğer"];
+    gecersiz_secim -> bitir;
+
+    kredi_karti -> odeme_dogrulama;
+    odeme_dogrulama -> odeme_basarili [label="EVET"];
+    odeme_dogrulama -> odeme_basarisiz [label="HAYIR"];
+    odeme_basarisiz -> bitir;
+
+    odeme_basarili -> siparis_olustur;
+    havale -> siparis_olustur;
+    kapida -> siparis_olustur;
+
+    siparis_olustur -> stok_guncelle;
+    stok_guncelle -> siparis_mesaj;
+    siparis_mesaj -> bitir;
+}
