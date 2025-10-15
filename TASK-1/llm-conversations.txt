@@ -1,0 +1,169 @@
+“ATM para çekme sistemi için detaylı pseudocode yazmanı istiyorum.
+
+Şunları içermeli: PIN doğrulama (3 hak), bakiye kontrolü, tutar
+
+kontrolü (20 TL katları), günlük limit kontrolü, işlem tekrarı seçeneği. Tüm
+
+adımları BAŞLA, OKU, YAZ, EGER-
+
+İSE, DÖNGÜ yapılarıyla yaz.”
+
+Tabii Elif 😊 işte istediğin gibi detaylı, Türkçe yapılarla yazılmış ATM para çekme sistemi pseudocode’u (PIN doğrulama, bakiye kontrolü, 20 TL katı kontrolü, günlük limit, işlem tekrarı dahil):
+
+
+---
+
+💻 ATM PARA ÇEKME SİSTEMİ PSEUDOCODE
+
+BAŞLA
+
+    bakiye ← 5000
+    gunluk_limit ← 2000
+    deneme_hakki ← 3
+    dogru_pin ← 1234
+
+    DÖNGÜ (deneme_hakki > 0) YAP
+        YAZ "Lütfen PIN kodunuzu giriniz: "
+        OKU pin
+
+        EĞER pin = dogru_pin İSE
+            YAZ "PIN doğru. İşleme devam ediliyor..."
+            ÇIK DÖNGÜDEN
+        DEĞİLSE
+            deneme_hakki ← deneme_hakki - 1
+            YAZ "Hatalı PIN! Kalan deneme hakkınız: ", deneme_hakki
+        SON
+    SON DÖNGÜ
+
+    EĞER deneme_hakki = 0 İSE
+        YAZ "Kartınız bloke olmuştur. Lütfen banka ile iletişime geçiniz."
+        BİTİR
+    SON
+
+    TEKRARLA
+
+        YAZ "Çekmek istediğiniz tutarı giriniz (20 TL katları olmalı): "
+        OKU tutar
+
+        EĞER tutar MOD 20 ≠ 0 İSE
+            YAZ "Hatalı giriş! Tutar 20 TL’nin katı olmalıdır."
+        DEĞİLSE EĞER tutar > bakiye İSE
+            YAZ "Yetersiz bakiye! Mevcut bakiye: ", bakiye
+        DEĞİLSE EĞER tutar > gunluk_limit İSE
+            YAZ "Tutar günlük limit olan ", gunluk_limit, " TL’yi aşıyor!"
+        DEĞİLSE
+            bakiye ← bakiye - tutar
+            gunluk_limit ← gunluk_limit - tutar
+            YAZ "İşlem başarılı! Yeni bakiyeniz: ", bakiye
+            YAZ "Kalan günlük limitiniz: ", gunluk_limit
+        SON
+
+        YAZ "Başka bir işlem yapmak ister misiniz? (E/H): "
+        OKU cevap
+
+    TEKRARLA (cevap = "E" VEYA cevap = "e") OLDUĞU SÜRECE
+
+    YAZ "Teşekkür ederiz. Kartınızı almayı unutmayınız."
+
+BİTİR
+
+
+---
+
+İstersen bunu bir akış diyagramı (flowchart) veya DOT (Graphviz) koduna da çevirebilirim — istersen hangi formatta istiyorsun? (örneğin: .dot, görsel akış şeması ya da kodla çizim).
+
+“Bu pseudocode’u Graphviz DOT diline çevir. Başla/Bitir için oval,
+
+girdi/çıktı için parallelogram, işlem için box, karar için diamond kullan.
+
+Tüm okları ve etiketleri ekle.”
+
+Harika Elif 🌸 Şimdi yukarıdaki ATM para çekme sistemi pseudocode’unu istediğin şekilde Graphviz DOT (akış diyagramı) formatına çevirdim.
+Şekiller:
+
+Oval → Başla / Bitir
+
+Paralelkenar → OKU / YAZ işlemleri (girdi-çıktı)
+
+Dikdörtgen → Normal işlem / atama
+
+Elmas (diamond) → Karar (EĞER)
+
+
+
+---
+
+💠 ATM Para Çekme Sistemi – Graphviz DOT Kodu
+
+digraph ATM_Para_Cekme {
+    rankdir=TB;
+    node [fontname="Arial"];
+
+    // Düğüm şekilleri
+    start [shape=oval, label="BAŞLA"];
+    pin_giris [shape=parallelogram, label="PIN oku"];
+    pin_kontrol [shape=diamond, label="PIN doğru mu?"];
+    pin_hatalı [shape=box, label="deneme_hakki = deneme_hakki - 1"];
+    pin_hak_kontrol [shape=diamond, label="deneme_hakki = 0 mı?"];
+    kart_bloke [shape=parallelogram, label="Kart bloke mesajı yaz"];
+    islem_basla [shape=parallelogram, label="PIN doğru mesajı yaz"];
+    tutar_giris [shape=parallelogram, label="Tutar oku"];
+    tutar_20kontrol [shape=diamond, label="Tutar 20'nin katı mı?"];
+    bakiye_kontrol [shape=diamond, label="Tutar > bakiye mi?"];
+    limit_kontrol [shape=diamond, label="Tutar > günlük limit mi?"];
+    islem_yap [shape=box, label="bakiye = bakiye - tutar\nlimit = limit - tutar"];
+    basarili_mesaj [shape=parallelogram, label="İşlem başarılı, bakiye ve limit yaz"];
+    devam_sor [shape=parallelogram, label="Başka işlem? (E/H) oku"];
+    devam_kontrol [shape=diamond, label="cevap = E veya e mi?"];
+    bitir [shape=oval, label="BİTİR"];
+
+    // Akış bağlantıları
+    start -> pin_giris;
+    pin_giris -> pin_kontrol;
+
+    pin_kontrol -> islem_basla [label="Evet"];
+    pin_kontrol -> pin_hatalı [label="Hayır"];
+
+    pin_hatalı -> pin_hak_kontrol;
+    pin_hak_kontrol -> kart_bloke [label="Evet"];
+    pin_hak_kontrol -> pin_giris [label="Hayır"];
+    kart_bloke -> bitir;
+
+    islem_basla -> tutar_giris;
+    tutar_giris -> tutar_20kontrol;
+
+    tutar_20kontrol -> bakiye_kontrol [label="Evet"];
+    tutar_20kontrol -> tutar_giris [label="Hayır\n(Yaz: 20 TL katı olmalı)"];
+
+    bakiye_kontrol -> limit_kontrol [label="Hayır"];
+    bakiye_kontrol -> tutar_giris [label="Evet\n(Yetersiz bakiye)"];
+
+    limit_kontrol -> islem_yap [label="Hayır"];
+    limit_kontrol -> tutar_giris [label="Evet\n(Limit aşıldı)"];
+
+    islem_yap -> basarili_mesaj;
+    basarili_mesaj -> devam_sor;
+    devam_sor -> devam_kontrol;
+
+    devam_kontrol -> tutar_giris [label="Evet"];
+    devam_kontrol -> bitir [label="Hayır"];
+}
+
+
+---
+
+🎯 Kullanım Notu:
+
+Bu kodu bir .dot dosyasına (örneğin atm.dot) kaydedip
+terminalde şu komutla görsele çevirebilirsin:
+
+dot -Tpng atm.dot -o atm.png
+
+Sonuçta tam bağlantılı bir akış diyagramı (flowchart) elde edersin.
+
+
+
+---
+
+İstersen bu DOT kodundan görsel akış diyagramını (PNG veya SVG) senin için hemen oluşturabilirim. İster misin görselini de çıkarayım?
+
