@@ -1,0 +1,79 @@
+digraph HastaneSistemi {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontname="Arial"];
+
+  Start [shape=ellipse, label="BAŞLA"];
+  Menu [label="Ana Menü:\n1-Randevu Al\n2-Tahlil Görüntüle\n3-Çıkış"];
+  End [shape=ellipse, label="BİTİR"];
+
+  // ====== Randevu Modülü ======
+  subgraph cluster_randevu {
+    label="Randevu Modülü";
+    color=blue;
+
+    R1 [label="TC Kimlik No Gir"];
+    R2 [shape=diamond, label="Kimlik Doğru mu?"];
+    R3 [label="Poliklinik Seç"];
+    R4 [shape=diamond, label="Poliklinik Geçerli mi?"];
+    R5 [label="Doktor Listesini Göster"];
+    R6 [label="Doktor Seç"];
+    R7 [shape=diamond, label="Doktor Uygun mu?"];
+    R8 [label="Uygun Saatleri Göster"];
+    R9 [label="Saat Seç"];
+    R10 [shape=diamond, label="Saat Uygun mu?"];
+    R11 [label="Randevuyu Kaydet"];
+    R12 [label="SMS Gönder"];
+    R13 [shape=diamond, label="Ana menüye dön? (E/H)"];
+
+    R1 -> R2;
+    R2 -> R3 [label="EVET"];
+    R2 -> Menu [label="HAYIR"];
+    R3 -> R4;
+    R4 -> R5 [label="EVET"];
+    R4 -> Menu [label="HAYIR"];
+    R5 -> R6 -> R7;
+    R7 -> R8 [label="EVET"];
+    R7 -> Menu [label="HAYIR"];
+    R8 -> R9 -> R10;
+    R10 -> R11 [label="EVET"];
+    R10 -> Menu [label="HAYIR"];
+    R11 -> R12 -> R13;
+    R13 -> Menu [label="EVET"];
+    R13 -> End [label="HAYIR"];
+  }
+
+  // ====== Tahlil Modülü ======
+  subgraph cluster_tahlil {
+    label="Tahlil Modülü";
+    color=green;
+
+    T1 [label="TC Kimlik No Gir"];
+    T2 [shape=diamond, label="Kimlik Doğru mu?"];
+    T3 [shape=diamond, label="Tahlil Kaydı Var mı?"];
+    T4 [shape=diamond, label="Sonuç Hazır mı?"];
+    T5 [label="Sonuçları Göster"];
+    T6 [shape=diamond, label="PDF İndirilsin mi?"];
+    T7 [label="PDF İndir"];
+    T8 [shape=diamond, label="Ana menüye dön? (E/H)"];
+
+    T1 -> T2;
+    T2 -> T3 [label="EVET"];
+    T2 -> Menu [label="HAYIR"];
+    T3 -> T4 [label="EVET"];
+    T3 -> Menu [label="HAYIR"];
+    T4 -> T5 [label="EVET"];
+    T4 -> Menu [label="HAYIR"];
+    T5 -> T6;
+    T6 -> T7 [label="EVET"];
+    T6 -> T8 [label="HAYIR"];
+    T7 -> T8;
+    T8 -> Menu [label="EVET"];
+    T8 -> End [label="HAYIR"];
+  }
+
+  // ====== Ana Menü Akışı ======
+  Start -> Menu;
+  Menu -> R1 [label="1"];
+  Menu -> T1 [label="2"];
+  Menu -> End [label="3"];
+}
