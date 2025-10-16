@@ -1,0 +1,72 @@
+digraph DersKayitSistemi {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontsize=11, fontname="Arial"];
+
+    start [label="BAŞLA"];
+    giris [label="Öğrenci No ve Şifre Gir"];
+    kontrol_giris [shape=diamond, label="Giriş Bilgileri Doğru mu?"];
+    hata_giris [label="Geçersiz giriş!\nSistemi Bitir"];
+    liste [label="Ders Listesini Göster"];
+    ders_dongu [shape=diamond, label="Ders Kodu = 0 mı?"];
+    ders_bul [label="Ders Bilgilerini Getir"];
+    kontenjan [shape=diamond, label="Kontenjan Var mı?"];
+    onkosul [shape=diamond, label="Ön Koşul Sağlanmış mı?"];
+    zaman [shape=diamond, label="Zaman Çakışması Yok mu?"];
+    kredi [shape=diamond, label="Toplam Kredi + Ders Kredisi ≤ 35 mi?"];
+    ders_ekle [label="Dersi Ekle\nToplam Kredi Güncelle"];
+    kontenjan_yok [label="Kontenjan Dolu!"];
+    onkosul_yok [label="Ön Koşul Eksik!"];
+    zaman_cakis [label="Zaman Çakışması Var!"];
+    kredi_asim [label="Kredi Limiti Aşıldı!"];
+    gpa_gir [label="GPA Gir"];
+    danisman [shape=diamond, label="GPA < 2.5 mi?"];
+    onay_gerekli [label="Danışman Onayı Gerekli"];
+    onay_gerekmez [label="Danışman Onayı Gerekmez"];
+    ozet [label="Seçilen Dersleri ve Toplam Krediyi Göster"];
+    kayit_onay [shape=diamond, label="Kayıt Onaylandı mı?"];
+    kayit_tamam [label="Ders Kaydı Tamamlandı!"];
+    kayit_iptal [label="Kayıt İptal Edildi"];
+    end [label="BİTİR"];
+
+    // Akış bağlantıları
+    start -> giris -> kontrol_giris;
+    kontrol_giris -> liste [label="Evet"];
+    kontrol_giris -> hata_giris [label="Hayır"];
+    hata_giris -> end;
+
+    liste -> ders_dongu;
+    ders_dongu -> gpa_gir [label="Evet (0 girildi)"];
+    ders_dongu -> ders_bul [label="Hayır"];
+
+    ders_bul -> kontenjan;
+    kontenjan -> onkosul [label="Evet"];
+    kontenjan -> kontenjan_yok [label="Hayır"];
+    kontenjan_yok -> ders_dongu;
+
+    onkosul -> zaman [label="Evet"];
+    onkosul -> onkosul_yok [label="Hayır"];
+    onkosul_yok -> ders_dongu;
+
+    zaman -> kredi [label="Evet"];
+    zaman -> zaman_cakis [label="Hayır"];
+    zaman_cakis -> ders_dongu;
+
+    kredi -> ders_ekle [label="Evet"];
+    kredi -> kredi_asim [label="Hayır"];
+    kredi_asim -> ders_dongu;
+
+    ders_ekle -> ders_dongu;
+
+    gpa_gir -> danisman;
+    danisman -> onay_gerekli [label="Evet"];
+    danisman -> onay_gerekmez [label="Hayır"];
+
+    onay_gerekli -> ozet;
+    onay_gerekmez -> ozet;
+
+    ozet -> kayit_onay;
+    kayit_onay -> kayit_tamam [label="Evet"];
+    kayit_onay -> kayit_iptal [label="Hayır"];
+    kayit_tamam -> end;
+    kayit_iptal -> end;
+}
