@@ -1,3 +1,1 @@
-
-
-sistemin kısa açıklaması (maks. 5-6 satır)
+Bu görevde de akıllı ev güvenlik sisteminin alarm ve bildirim süreçlerinin pseudocode kodunu yazdım ve sonra llmden  dot diline çevirdim ve çevirdiğim dot dilini de graphviz de akış şemasına döndürdüm ve onu da .png dosyası olarak indirdim.
