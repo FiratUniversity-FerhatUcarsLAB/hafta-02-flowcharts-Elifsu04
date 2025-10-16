@@ -1,0 +1,298 @@
+Görselde “Görev 4: Üniversite Ders Kayıt Sistemi” başlıklı bir akış diyagramı laboratuvar slaytı yer alıyor.
+İçeriği, bir öğrenci ders kayıt sisteminin tüm kontrollerini ve kurallarını modelleme görevini anlatıyor.
+Aşağıda slaytın özetlenmiş açıklaması yer alıyor 👇
+
+
+---
+
+🎯 Görev 4: Üniversite Ders Kayıt Sistemi
+
+Amaç:
+Öğrenci ders kayıt sisteminin tüm kontrollerini ve kurallarını modellemek.
+
+
+---
+
+🧩 Sistem Gereksinimleri
+
+1. Öğrenci girişi:
+→ Öğrenci numarası + şifre (kimlik doğrulama)
+
+
+2. Ders listesini görüntüleme (döngü)
+
+
+3. Her ders için kontroller:
+
+Kontenjan kontrolü (koşul)
+
+Ön koşul dersi kontrolü (koşul)
+
+Zaman çakışması kontrolü (koşul)
+
+Kredi limiti kontrolü (toplam ≤ 35) (koşul)
+
+
+
+4. Ders ekleme / çıkarma (döngü)
+
+
+5. Danışman onayı gerekli mi?
+→ (Koşul: GPA < 2.5 ise gerekli)
+
+
+6. Kayıt özeti gösterme ve onaylama
+
+
+
+
+---
+
+⚙️ Not:
+
+Slaytta “Çoklu kontrol mekanizmaları ve karmaşık koşullar!” vurgusu var — yani sistemde birden fazla iç içe EĞER–İSE (if–else) yapısı kullanılacak.
+
+
+---
+
+🧠 Görev 4: LLM Prompt Stratejisi
+
+Karmaşık Sistem İçin Adım Adım Yaklaşım:
+
+1. Genel Akışı Açıkla:
+“Üniversite ders kayıt sisteminin genel akışını açıkla: giriş, ders listesi, ders seçimi, kontroller, onaylama.”
+
+
+2. Kontrolleri Listele:
+“Ders kaydında yapılması gereken kontroller: kontenjan, ön koşul, zaman çakışması, kredi limiti, danışman onayı.”
+
+
+3. Pseudocode Yaz:
+“Tüm bu kontrollerle birlikte detaylı pseudocode yaz. İç içe EĞER–İSE yapıları ve döngüler kullan.”
+
+
+4. Graphviz DOT Dönüşümü:
+“Bu pseudocode’u Graphviz DOT diline çevir. Her kontrol noktasını diamond (elmas) sembolü ile göster.”
+
+
+
+
+---
+
+İstersen bu görevi ben senin için tamamlayabilirim:
+
+önce detaylı pseudocode (EĞER–İSE ve DÖNGÜ’lerle),
+
+sonra Graphviz DOT diyagram kodu oluşturabilirim.
+
+
+Hazırlayayım mı?
+
+Evet
+
+Harika 🌟
+O zaman başlayalım!
+Aşağıda Üniversite Ders Kayıt Sistemi için tüm kontrolleri ve kuralları içeren detaylı Pseudocode yer alıyor.
+Bu sürüm, “öğrenci girişi, ders listeleme, seçim, kontroller, danışman onayı ve kayıt onaylama” adımlarını içerir.
+
+
+---
+
+🧩 Pseudocode: Üniversite Ders Kayıt Sistemi
+
+BAŞLA
+
+  // Öğrenci girişi
+  YAZ "Öğrenci numarasını girin:"
+  OKU ogrenciNo
+  YAZ "Şifreyi girin:"
+  OKU sifre
+
+  EĞER ogrenciNo ve sifre DOĞRU ise
+      YAZ "Giriş başarılı"
+  DEĞİLSE
+      YAZ "Geçersiz giriş bilgileri!"
+      BİTİR
+  SON
+
+  // Ders listesi gösterimi
+  DERS_LISTESİ ← TÜM_DERSLERİ_GETİR()
+  YAZ "Mevcut dersler:"
+  HER DERS için DERS_LISTESİ içinde
+      YAZ DERS.ad, DERS.kredi, DERS.kontenjan
+  SON
+
+  toplamKredi ← 0
+  SECİLEN_DERSLER ← boş liste
+
+  // Ders ekleme döngüsü
+  DÖNGÜ
+      YAZ "Eklemek istediğiniz ders kodunu girin (bitirmek için 0):"
+      OKU dersKodu
+
+      EĞER dersKodu = 0 İSE
+          ÇIK DÖNGÜDEN
+      SON
+
+      DERS ← DERS_BUL(dersKodu)
+
+      // Kontroller
+      EĞER DERS.kontenjan > 0 İSE
+          EĞER ÖN_KOŞUL_TAMAMLANMIŞ_MI(DERS) = EVET İSE
+              EĞER ZAMAN_ÇAKIŞMASI_YOK_MU(DERS, SECİLEN_DERSLER) = EVET İSE
+                  EĞER toplamKredi + DERS.kredi ≤ 35 İSE
+                      SECİLEN_DERSLER’e DERS EKLE
+                      toplamKredi ← toplamKredi + DERS.kredi
+                      YAZ "Ders eklendi: ", DERS.ad
+                  DEĞİLSE
+                      YAZ "Kredi limiti aşıldı! Bu dersi ekleyemezsiniz."
+                  SON
+              DEĞİLSE
+                  YAZ "Zaman çakışması var! Dersi ekleyemezsiniz."
+              SON
+          DEĞİLSE
+              YAZ "Ön koşul dersi alınmamış!"
+          SON
+      DEĞİLSE
+          YAZ "Dersin kontenjanı dolu!"
+      SON
+  SON_DÖNGÜ
+
+  // Danışman onayı kontrolü
+  YAZ "GPA değerini girin:"
+  OKU GPA
+  EĞER GPA < 2.5 İSE
+      YAZ "Danışman onayı gerekli. Lütfen danışmanınızdan onay alın."
+  DEĞİLSE
+      YAZ "Danışman onayına gerek yok."
+  SON
+
+  // Kayıt özeti ve onaylama
+  YAZ "Seçilen Dersler:"
+  HER DERS için SECİLEN_DERSLER içinde
+      YAZ DERS.ad, " (", DERS.kredi, " kredi)"
+  SON
+  YAZ "Toplam Kredi: ", toplamKredi
+
+  YAZ "Kaydı onaylıyor musunuz? (E/H)"
+  OKU cevap
+  EĞER cevap = 'E' İSE
+      YAZ "Ders kaydı tamamlandı!"
+  DEĞİLSE
+      YAZ "Kayıt iptal edildi."
+  SON
+
+BİTİR
+
+
+---
+
+İstersen şimdi bu pseudocode’u Graphviz DOT formatına dönüştürebilirim (akış diyagramı olarak gösterebilmek için).
+Her koşul elmas (diamond), her işlem dikdörtgen (box) olarak gösterilecek.
+
+👉 Dönüştürmemi ister misin?
+
+Evet
+
+Mükemmel 💡
+Aşağıda, az önceki “Üniversite Ders Kayıt Sistemi” pseudocode’unun Graphviz DOT formatına dönüştürülmüş hali yer alıyor.
+Bu kodu bir .dot dosyasına yapıştırıp Graphviz Online Editor gibi bir araçta çalıştırarak diyagramı görebilirsin.
+
+
+---
+
+🎓 Graphviz DOT Kodu: Üniversite Ders Kayıt Sistemi
+
+digraph DersKayitSistemi {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontsize=11, fontname="Arial"];
+
+    start [label="BAŞLA"];
+    giris [label="Öğrenci No ve Şifre Gir"];
+    kontrol_giris [shape=diamond, label="Giriş Bilgileri Doğru mu?"];
+    hata_giris [label="Geçersiz giriş!\nSistemi Bitir"];
+    liste [label="Ders Listesini Göster"];
+    ders_dongu [shape=diamond, label="Ders Kodu = 0 mı?"];
+    ders_bul [label="Ders Bilgilerini Getir"];
+    kontenjan [shape=diamond, label="Kontenjan Var mı?"];
+    onkosul [shape=diamond, label="Ön Koşul Sağlanmış mı?"];
+    zaman [shape=diamond, label="Zaman Çakışması Yok mu?"];
+    kredi [shape=diamond, label="Toplam Kredi + Ders Kredisi ≤ 35 mi?"];
+    ders_ekle [label="Dersi Ekle\nToplam Kredi Güncelle"];
+    kontenjan_yok [label="Kontenjan Dolu!"];
+    onkosul_yok [label="Ön Koşul Eksik!"];
+    zaman_cakis [label="Zaman Çakışması Var!"];
+    kredi_asim [label="Kredi Limiti Aşıldı!"];
+    gpa_gir [label="GPA Gir"];
+    danisman [shape=diamond, label="GPA < 2.5 mi?"];
+    onay_gerekli [label="Danışman Onayı Gerekli"];
+    onay_gerekmez [label="Danışman Onayı Gerekmez"];
+    ozet [label="Seçilen Dersleri ve Toplam Krediyi Göster"];
+    kayit_onay [shape=diamond, label="Kayıt Onaylandı mı?"];
+    kayit_tamam [label="Ders Kaydı Tamamlandı!"];
+    kayit_iptal [label="Kayıt İptal Edildi"];
+    end [label="BİTİR"];
+
+    // Akış bağlantıları
+    start -> giris -> kontrol_giris;
+    kontrol_giris -> liste [label="Evet"];
+    kontrol_giris -> hata_giris [label="Hayır"];
+    hata_giris -> end;
+
+    liste -> ders_dongu;
+    ders_dongu -> gpa_gir [label="Evet (0 girildi)"];
+    ders_dongu -> ders_bul [label="Hayır"];
+
+    ders_bul -> kontenjan;
+    kontenjan -> onkosul [label="Evet"];
+    kontenjan -> kontenjan_yok [label="Hayır"];
+    kontenjan_yok -> ders_dongu;
+
+    onkosul -> zaman [label="Evet"];
+    onkosul -> onkosul_yok [label="Hayır"];
+    onkosul_yok -> ders_dongu;
+
+    zaman -> kredi [label="Evet"];
+    zaman -> zaman_cakis [label="Hayır"];
+    zaman_cakis -> ders_dongu;
+
+    kredi -> ders_ekle [label="Evet"];
+    kredi -> kredi_asim [label="Hayır"];
+    kredi_asim -> ders_dongu;
+
+    ders_ekle -> ders_dongu;
+
+    gpa_gir -> danisman;
+    danisman -> onay_gerekli [label="Evet"];
+    danisman -> onay_gerekmez [label="Hayır"];
+
+    onay_gerekli -> ozet;
+    onay_gerekmez -> ozet;
+
+    ozet -> kayit_onay;
+    kayit_onay -> kayit_tamam [label="Evet"];
+    kayit_onay -> kayit_iptal [label="Hayır"];
+    kayit_tamam -> end;
+    kayit_iptal -> end;
+}
+
+
+---
+
+Bu diyagramda:
+
+🔷 Elmaslar (diamond) → Karar noktaları (koşullar)
+
+⬛ Dikdörtgenler (box) → İşlem adımları
+
+🔁 “Ders kodu = 0 mı?” → Ders ekleme döngüsünü temsil eder
+
+🔚 “BİTİR” → Program sonu
+
+
+
+---
+
+İstersen bir sonraki adımda bu diyagramın görsel halini (çizimini) senin için oluşturabilirim.
+İster misin diyagramı görüntü olarak da hazırlayayım?
+
