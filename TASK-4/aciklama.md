@@ -1,3 +1,1 @@
-
-
-sistemin kısa açıklaması (maks. 5-6 satır)
+Bu görevde öğrenci ders kayıt sisteminin tüm kontrollerini ve kurallarını modelledim bunu yaparken de llmden yardım aldım kredi limiti 35 olarak belirlenmişti ve danışman onayının gerekli olup olmadığı koşul olarak verilmişti ben de onlar ve öbür koşullar ile beraber ödevi tamamladım.
