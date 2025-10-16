@@ -1,0 +1,64 @@
+digraph SmartHomeSecurity24_7 {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial", fontsize=10];
+
+    Start [label="BASLA"];
+    Active [label="Sistem aktif mi?"];
+    ReadSensors [label="Sensörleri oku\n(Hareket, Kapı, Pencere, Kamera)"];
+    Evaluate [label="Tehdit algılandı mı?\n(TEHDIT_DEGERLENDIR)"];
+    Normal [label="Durum normal\nBekle(3 sn)"];
+    OwnerCheck [label="Ev sahibi evde mi?"];
+    FalseAlarm [label="Yanlış alarm!\nAlarm sıfırlandı"];
+    LimitCheck [label="Günlük alarm limiti kontrolü"];
+    AlarmTrigger [label="Alarm tetikleniyor"];
+    Camera [label="Kamera kaydı başlat\n(60 sn)"];
+    AlarmLevel [label="Alarm seviyesi belirle\n(1, 2, 3)"];
+    Notify [label="Bildirim gönder\n(SMS + App + Email)"];
+    Siren [label="Alarm sireni çal"];
+    Recheck [label="Tehdit devam ediyor mu?"];
+    LevelUp [label="Alarm seviyesi yükseltildi"];
+    ThreatEnd [label="Tehdit sona erdi"];
+    UserConfirm [label="Kullanıcı onayı alındı mı?"];
+    Reset [label="Alarm sıfırla\nSiren durdur\nKamera kapat"];
+    Loop [label="Ana döngüye dön"];
+    End [label="BİTİR"];
+
+    // Ana akış
+    Start -> Active;
+    Active -> ReadSensors [label="Evet"];
+    Active -> End [label="Hayır"];
+    
+    ReadSensors -> Evaluate;
+    Evaluate -> Normal [label="Hayır"];
+    Evaluate -> OwnerCheck [label="Evet"];
+
+    Normal -> ReadSensors;
+
+    OwnerCheck -> FalseAlarm [label="Evet"];
+    OwnerCheck -> LimitCheck [label="Hayır"];
+
+    FalseAlarm -> ReadSensors;
+
+    LimitCheck -> AlarmTrigger [label="Limit aşılmadı"];
+    LimitCheck -> ReadSensors [label="Limit aşıldı"];
+
+    AlarmTrigger -> Camera;
+    Camera -> AlarmLevel;
+    AlarmLevel -> Notify;
+    Notify -> Siren;
+    Siren -> Recheck;
+
+    // Tehdit kontrol döngüsü
+    Recheck -> ThreatEnd [label="Hayır"];
+    Recheck -> LevelUp [label="Evet ve seviye arttı"];
+    Recheck -> Siren [label="Evet, seviye aynı"];
+
+    LevelUp -> Notify;
+    ThreatEnd -> UserConfirm;
+
+    UserConfirm -> Reset [label="Evet"];
+    UserConfirm -> Reset [label="Hayır (otomatik sıfırla)"];
+
+    Reset -> Loop;
+    Loop -> ReadSensors;
+}
