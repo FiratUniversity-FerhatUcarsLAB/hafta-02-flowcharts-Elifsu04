@@ -1,0 +1,376 @@
+“Hastane randevu sistemi için algoritma: kimlik doğrulama, poliklinik
+
+seçimi, doktor listesi görüntüleme, uygun saatleri gösterme, randevu
+
+onaylama ve SMS gönderme. Pseudocode yaz.”
+
+Elbette 😊
+Aşağıda yalnızca hastane randevu sistemine ait, istenen adımları içeren tam ve düzenli pseudocode verilmiştir 👇
+
+
+---
+
+🏥 Hastane Randevu Sistemi – Pseudocode
+
+BASLA
+  YAZ "Hastane Randevu Sistemine Hoşgeldiniz"
+  
+  // 1. Kimlik Doğrulama
+  YAZ "Lütfen TC Kimlik Numaranızı Giriniz:"
+  OKU tcNo
+  
+  EGER KimlikDogru(tcNo) DEGILSE
+      YAZ "Geçersiz veya hatalı TC kimlik numarası!"
+      BITIR
+  SON
+  
+  // 2. Poliklinik Seçimi
+  YAZ "Lütfen bir poliklinik seçiniz:"
+  PoliklinikleriListele()
+  OKU poliklinik
+  
+  EGER PoliklinikVarMi(poliklinik) DEGILSE
+      YAZ "Geçersiz poliklinik seçimi!"
+      BITIR
+  SON
+  
+  // 3. Doktor Listesi Görüntüleme
+  DoktorListesiniGöster(poliklinik)
+  YAZ "Randevu almak istediğiniz doktoru seçiniz:"
+  OKU doktor
+  
+  EGER DoktorUygunMu(doktor) DEGILSE
+      YAZ "Seçilen doktor uygun değil!"
+      BITIR
+  SON
+  
+  // 4. Uygun Saatleri Gösterme
+  UygunSaatleriGöster(doktor)
+  YAZ "Lütfen uygun bir saat seçiniz:"
+  OKU saat
+  
+  EGER SaatUygunMu(doktor, saat) DEGILSE
+      YAZ "Seçilen saat dolu, lütfen başka bir saat seçiniz."
+      BITIR
+  SON
+  
+  // 5. Randevu Onaylama
+  YAZ "Randevunuz oluşturuluyor..."
+  RandevuKaydet(tcNo, poliklinik, doktor, saat)
+  YAZ "Randevunuz başarıyla oluşturuldu!"
+  
+  // 6. SMS Gönderme
+  SMSGönder(tcNo, "Randevunuz onaylandı: " + poliklinik + " - " + doktor + " - " + saat)
+  YAZ "Onay SMS'i gönderildi."
+  
+  YAZ "Başka bir işlem yapmak ister misiniz? (E/H)"
+  OKU cevap
+  EGER cevap = "E" ISE
+      GIT BASA
+  DEGILSE
+      YAZ "İyi günler dileriz!"
+  SON
+BİTİR
+
+
+---
+
+İstersen bu pseudocode’u Graphviz DOT akış diyagramına da çevirebilirim (karar noktalarında “EVET / HAYIR” etiketleriyle).
+Bunu da ister misin?
+
+Evet
+
+Harika 😊
+İşte yukarıdaki Hastane Randevu Sistemi pseudocode’unun Graphviz DOT formatında akış diyagramı:
+(Dikey düzen için rankdir=TB, karar noktalarında EVET / HAYIR etiketleri var.)
+
+
+---
+
+🩺 Hastane Randevu Sistemi (Graphviz DOT)
+
+digraph HastaneRandevu {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontname="Arial"];
+
+  Start [shape=ellipse, label="BAŞLA"];
+  A1 [label="TC Kimlik No Gir"];
+  A2 [shape=diamond, label="Kimlik Doğru mu?"];
+  A3 [label="Poliklinik Seç"];
+  A4 [shape=diamond, label="Poliklinik Geçerli mi?"];
+  A5 [label="Doktor Listesini Göster"];
+  A6 [label="Doktor Seç"];
+  A7 [shape=diamond, label="Doktor Uygun mu?"];
+  A8 [label="Uygun Saatleri Göster"];
+  A9 [label="Saat Seç"];
+  A10 [shape=diamond, label="Saat Uygun mu?"];
+  A11 [label="Randevuyu Kaydet"];
+  A12 [label="SMS Gönder"];
+  A13 [shape=diamond, label="Başka işlem yapmak ister misiniz?"];
+  End [shape=ellipse, label="BİTİR"];
+
+  Start -> A1 -> A2;
+  A2 -> A3 [label="EVET"];
+  A2 -> End [label="HAYIR"];
+  A3 -> A4;
+  A4 -> A5 [label="EVET"];
+  A4 -> End [label="HAYIR"];
+  A5 -> A6 -> A7;
+  A7 -> A8 [label="EVET"];
+  A7 -> End [label="HAYIR"];
+  A8 -> A9 -> A10;
+  A10 -> A11 [label="EVET"];
+  A10 -> End [label="HAYIR"];
+  A11 -> A12 -> A13;
+  A13 -> A1 [label="EVET"];
+  A13 -> End [label="HAYIR"];
+}
+
+
+---
+
+İstersen bu diyagramı senin için görselleştirilmiş hâlde (grafik olarak) de oluşturabilirim.
+Bunu görsel olarak çizmemi ister misin?
+
+Tahlil sonucu görüntüleme sistemi:kimlik doğrulama,tahlil varlığı kontrolü,sonuç hazır mı kontrolü, görüntüleme veya bekleme mesajı, PDF indirme,Pseudocode yaz
+
+Tabii 😊
+Aşağıda istenen tüm adımları (kimlik doğrulama, tahlil varlığı, sonuç kontrolü, görüntüleme, PDF indirme vb.) içeren Tahlil Sonucu Görüntüleme Sistemi için detaylı pseudocode yer alıyor 👇
+
+
+---
+
+🧪 Tahlil Sonucu Görüntüleme Sistemi – Pseudocode
+
+BASLA
+  YAZ "Tahlil Sonucu Görüntüleme Sistemine Hoşgeldiniz"
+  
+  // 1. Kimlik Doğrulama
+  YAZ "Lütfen TC Kimlik Numaranızı Giriniz:"
+  OKU tcNo
+  
+  EGER KimlikDogru(tcNo) DEGILSE
+      YAZ "Geçersiz veya hatalı TC kimlik numarası!"
+      BITIR
+  SON
+  
+  // 2. Tahlil Varlığı Kontrolü
+  EGER TahlilKaydiVarMi(tcNo) DEGILSE
+      YAZ "Tahlil kaydınız bulunamadı!"
+      BITIR
+  SON
+  
+  // 3. Sonuç Hazır mı Kontrolü
+  EGER SonucHazir(tcNo) DEGILSE
+      YAZ "Tahlil sonuçlarınız henüz hazır değil, lütfen daha sonra tekrar deneyiniz."
+      BITIR
+  SON
+  
+  // 4. Sonuç Görüntüleme
+  YAZ "Tahlil sonuçlarınız görüntüleniyor..."
+  SonuclariGoster(tcNo)
+  
+  // 5. PDF İndirme Seçeneği
+  YAZ "Sonuçları PDF olarak indirmek ister misiniz? (E/H)"
+  OKU indirme
+  
+  EGER indirme = "E" ISE
+      PDFindir(tcNo)
+      YAZ "PDF başarıyla indirildi."
+  SON
+  
+  // 6. Tekrar İşlem Sorusu
+  YAZ "Başka bir işlem yapmak ister misiniz? (E/H)"
+  OKU cevap
+  
+  EGER cevap = "E" ISE
+      GIT BASA
+  DEGILSE
+      YAZ "İyi günler dileriz!"
+  SON
+BİTİR
+
+
+---
+
+İstersen bu pseudocode’un Graphviz DOT akış diyagramını (EVET / HAYIR etiketleriyle) da oluşturabilirim.
+Hazırlayayım mı?
+
+Evet
+
+Harika 😊
+İşte Tahlil Sonucu Görüntüleme Sistemi için pseudocode’un Graphviz DOT formatında akış diyagramı — karar noktaları EVET / HAYIR etiketli ve dikey düzen (rankdir=TB) olarak hazırlanmıştır 👇
+
+
+---
+
+🧪 Tahlil Sonucu Görüntüleme Sistemi (Graphviz DOT)
+
+digraph TahlilSonucuSistemi {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontname="Arial"];
+
+  Start [shape=ellipse, label="BAŞLA"];
+  A1 [label="TC Kimlik No Gir"];
+  A2 [shape=diamond, label="Kimlik Doğru mu?"];
+  A3 [shape=diamond, label="Tahlil Kaydı Var mı?"];
+  A4 [shape=diamond, label="Sonuç Hazır mı?"];
+  A5 [label="Sonuçları Göster"];
+  A6 [shape=diamond, label="PDF İndirilsin mi?"];
+  A7 [label="PDF İndir"];
+  A8 [shape=diamond, label="Başka işlem yapmak ister misiniz?"];
+  End [shape=ellipse, label="BİTİR"];
+
+  // Bağlantılar
+  Start -> A1 -> A2;
+  A2 -> A3 [label="EVET"];
+  A2 -> End [label="HAYIR"];
+  A3 -> A4 [label="EVET"];
+  A3 -> End [label="HAYIR"];
+  A4 -> A5 [label="EVET"];
+  A4 -> End [label="HAYIR"];
+  A5 -> A6;
+  A6 -> A7 [label="EVET"];
+  A6 -> A8 [label="HAYIR"];
+  A7 -> A8;
+  A8 -> A1 [label="EVET"];
+  A8 -> End [label="HAYIR"];
+}
+
+
+---
+
+İstersen bu diyagramı senin için grafik olarak çizip (görsel hâlde) gösterebilirim.
+İster misin görsel olarak da oluşturayım?
+
+Şimdi yazdırdığım iki Pseudocode kodu birleştir
+
+Harika 👍
+Aşağıda “Hastane Randevu Sistemi” ve “Tahlil Sonucu Görüntüleme Sistemi” pseudocode’larını tek bir entegre hastane sistemi olarak birleştirdim.
+Bu birleşik sürüm, kullanıcıya menü üzerinden Randevu Alma veya Tahlil Görüntüleme işlemlerinden birini seçme olanağı sunar.
+
+
+---
+
+🏥 Hastane Randevu ve Tahlil Sistemi – Birleşik Pseudocode
+
+BASLA
+  YAZ "HASTANE RANDEVU VE TAHLİL SİSTEMİNE HOŞGELDİNİZ"
+
+ANA_MENU:
+  YAZ "Lütfen yapmak istediğiniz işlemi seçiniz:"
+  YAZ "1 - Randevu Al"
+  YAZ "2 - Tahlil Sonucu Görüntüle"
+  YAZ "3 - Çıkış"
+  OKU secim
+
+  // ====== 1. RANDEVU ALMA MODÜLÜ ======
+  EGER secim = 1 ISE
+      YAZ "Lütfen TC Kimlik Numaranızı Giriniz:"
+      OKU tcNo
+      
+      EGER KimlikDogru(tcNo) DEGILSE
+          YAZ "Geçersiz veya hatalı TC kimlik numarası!"
+          GIT ANA_MENU
+      SON
+
+      YAZ "Poliklinik Seçiniz:"
+      PoliklinikleriListele()
+      OKU poliklinik
+
+      EGER PoliklinikVarMi(poliklinik) DEGILSE
+          YAZ "Geçersiz poliklinik seçimi!"
+          GIT ANA_MENU
+      SON
+
+      DoktorListesiniGöster(poliklinik)
+      YAZ "Doktor Seçiniz:"
+      OKU doktor
+
+      EGER DoktorUygunMu(doktor) DEGILSE
+          YAZ "Seçilen doktor uygun değil!"
+          GIT ANA_MENU
+      SON
+
+      UygunSaatleriGöster(doktor)
+      YAZ "Lütfen uygun bir saat seçiniz:"
+      OKU saat
+
+      EGER SaatUygunMu(doktor, saat) DEGILSE
+          YAZ "Seçilen saat dolu, lütfen başka bir saat seçiniz."
+          GIT ANA_MENU
+      SON
+
+      RandevuKaydet(tcNo, poliklinik, doktor, saat)
+      YAZ "Randevunuz başarıyla oluşturuldu."
+      SMSGönder(tcNo, "Randevunuz onaylandı: " + poliklinik + " - " + doktor + " - " + saat)
+      YAZ "Onay SMS'i gönderildi."
+
+      YAZ "Ana menüye dönmek ister misiniz? (E/H)"
+      OKU cevap
+      EGER cevap = "E" ISE
+          GIT ANA_MENU
+      DEGILSE
+          YAZ "İyi günler dileriz!"
+          BITIR
+      SON
+
+
+  // ====== 2. TAHLİL GÖRÜNTÜLEME MODÜLÜ ======
+  DEGILSE EGER secim = 2 ISE
+      YAZ "Lütfen TC Kimlik Numaranızı Giriniz:"
+      OKU tcNo
+
+      EGER KimlikDogru(tcNo) DEGILSE
+          YAZ "Geçersiz veya hatalı TC kimlik numarası!"
+          GIT ANA_MENU
+      SON
+
+      EGER TahlilKaydiVarMi(tcNo) DEGILSE
+          YAZ "Tahlil kaydınız bulunamadı!"
+          GIT ANA_MENU
+      SON
+
+      EGER SonucHazir(tcNo) DEGILSE
+          YAZ "Tahlil sonuçlarınız henüz hazır değil, lütfen daha sonra tekrar deneyiniz."
+          GIT ANA_MENU
+      SON
+
+      YAZ "Tahlil sonuçlarınız görüntüleniyor..."
+      SonuclariGoster(tcNo)
+
+      YAZ "Sonuçları PDF olarak indirmek ister misiniz? (E/H)"
+      OKU indirme
+      EGER indirme = "E" ISE
+          PDFindir(tcNo)
+          YAZ "PDF başarıyla indirildi."
+      SON
+
+      YAZ "Ana menüye dönmek ister misiniz? (E/H)"
+      OKU cevap
+      EGER cevap = "E" ISE
+          GIT ANA_MENU
+      DEGILSE
+          YAZ "İyi günler dileriz!"
+          BITIR
+      SON
+
+
+  // ====== 3. ÇIKIŞ ======
+  DEGILSE EGER secim = 3 ISE
+      YAZ "Sistemden çıkılıyor..."
+      BITIR
+
+  // ====== HATALI SEÇİM ======
+  DEGILSE
+      YAZ "Geçersiz seçim yaptınız!"
+      GIT ANA_MENU
+  SON
+BİTİR
+
+
+---
+
+İstersen bu birleştirilmiş sistemin Graphviz DOT diyagramını da (Randevu ve Tahlil modülleri dahil, “EVET / HAYIR” etiketleriyle) çizebilirim.
+Hazırlayayım mı?
+
